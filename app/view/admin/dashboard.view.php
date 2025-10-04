@@ -6,6 +6,7 @@
     <title>Blog || Admin dashboard</title>
 </head>
 <body>
+    <a href="../logout.php">logout</a>
     <h1>All Post</h1>
     <table>
         <tr>

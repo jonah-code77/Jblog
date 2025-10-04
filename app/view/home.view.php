@@ -7,6 +7,12 @@
 </head>
 <body>
     <h1>Welcome To My First Blog Work</h1>
+    <?php if(Session::getSession('user_id')) : ?>
+        <a href="logout.php">logout</a>
+    <?php else : ?>
+        <a href="login.php">login</a>    
+    <?php endif ?>    
+    
     <form action="" method="get">
         <input type="search" name="search" value="<?= $search ?? ''?>" placeholder="Search Blog...">
         <button type="submit">Search</button><br>

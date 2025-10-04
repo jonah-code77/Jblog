@@ -4,7 +4,7 @@ require "app/app.php";
 //create the Blog Controller
 $controller = new Blog();
 
-//Search 
+$action = $_GET['action'] ?? 'home';
 $search = trim($_GET['search'] ?? '');
 $id = $_GET['id'] ?? null;
 
@@ -19,5 +19,8 @@ if ($search !="") {
 
     $controller->getAllPost();
 }
+
+
+
 
 

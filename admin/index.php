@@ -6,7 +6,7 @@ $controller = new Admin();
 
 $action = $_GET['action'] ?? 'dashboard';
 $id = $_GET['id'] ?? '';
-$userId = 1; 
+$userId = Session::getSession('user_id'); 
 $title = $_POST['title'] ?? '';
 $content = $_POST['content'] ?? '';
 

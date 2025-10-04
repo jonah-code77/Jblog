@@ -5,7 +5,9 @@ class Blog {
 
     public function __construct()
     {
+        Session::start();
         $this->model = new AppModel();
+        
     }
 
     //Method to get all post
@@ -25,12 +27,37 @@ class Blog {
         View::views('home', ['posts'=> $posts, 'search'=>$search]);
     }
 
-    // public function addPost($userId,$title,$content,$created_at){
-    //     if ($this->model->createPost($userId,$title,$content,$created_at)) {
-    //         echo "Post Has Been Created";
-    //     }else{
-    //         echo "failed to create Post";
-    //     }
-    // }
+
+    //login users/admin
+    public function logIn(){
+        $msg = [];
+        if (isset($_POST['btn'])) {
+            $usernameOrEmail = ucfirst(trim($_POST['usernameorEmail']));
+            $password = trim($_POST['password']); 
+
+            if (!empty($usernameOrEmail && $password)) {
+                $result = $this->model->logIn($usernameOrEmail,$password);
+                if($result){
+                    Session::setSession('username',$result['username']);
+                    Session::setSession('user_id',$result['id']);
+                    Session::setSession('role',$result['role']);
+                    Session::setSession('email',$result['email']);
+                    //print_r(Session::getAll());
+
+                    if($result['role'] === 'admin'){
+                        header("location:admin/index.php?action=dashboard");
+                    }else{
+                        header("location:index.php");
+                    }
+                }else{
+                    $msg[] =  "invalid details";
+                }
+
+                
+            }
+
+        }
+        View::views('login',['msg'=>$msg]);
+    }
 
 }

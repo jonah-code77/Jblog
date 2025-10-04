@@ -3,7 +3,7 @@
 class AppModel extends Dbh {
 
     //To check if a user is admin
-    private function isAdmin($userId){
+    public function isAdmin($userId){
         $sql = "SELECT role FROM users WHERE id = ?";
         $stmt = $this->conn()->prepare($sql);
         $stmt->execute([$userId]);
@@ -11,6 +11,19 @@ class AppModel extends Dbh {
         return  $user && $user === 'admin';
     }    
    
+
+    //login admin/users
+    public function logIn($usernameOrEmail,$password){
+        $sql = "SELECT * FROM users WHERE username = ? OR email = ? LIMIT 1";
+        $stmt = $this->conn()->prepare($sql);
+        $stmt->execute([$usernameOrEmail,$usernameOrEmail]);
+        $user = $stmt->fetch();
+        if ($user && password_verify($password,$user['password'])) {
+            return $user;
+        }
+        return false;    
+    }
+
     //Create Post
     public function createPost($userId,$title,$content){
         if (!$this->isAdmin($userId)) {

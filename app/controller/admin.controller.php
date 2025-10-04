@@ -6,6 +6,7 @@ class Admin {
     public function __construct()
     {
         $this->model = new AppModel;
+        
     }
 
     //check for admin
@@ -19,6 +20,7 @@ class Admin {
 
     //Display admin Dashboard
     public function dashboard($adminId){
+        Session::adminExist();
         if(!$this->checkAdmin($adminId)) return false;
         $posts = $this->model->get_posts();
         $users = $this->model->get_users();
