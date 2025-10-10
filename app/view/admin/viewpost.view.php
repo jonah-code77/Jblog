@@ -14,6 +14,7 @@
         <p><strong>Last Updated at:</strong> <?= $post['updated_at'] ?? "NILL" ?></p>
     
     <div><?= nl2br($post['content']) ?></div>
+
     <div>
         <a href="index.php?action=editPost&id=<?= $post['id'] ?>">Edit</a>
         <a href="index.php?action=deletePost&id=<?= $post['id'] ?>"

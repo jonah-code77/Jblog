@@ -6,7 +6,7 @@ class Admin {
     public function __construct()
     {
         $this->model = new AppModel;
-        
+        Session::start();
     }
 
     //check for admin

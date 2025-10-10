@@ -58,7 +58,6 @@
             <td>
                 <a href="index.php?action=createPost&id=<?= $user['id'] ?>">Add Post</a>
                 <a href="index.php?action=changeRole&id=<?= $user['id'] ?>">Change Role</a>
-                <a href="index.php?action=deletePostt&id=<?= $user['id'] ?>">Delete</a>
             </td>
             </tr>
         <?php endforeach ?>

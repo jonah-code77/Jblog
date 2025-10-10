@@ -19,13 +19,13 @@ class Session {
         return $_SESSION[$key] ?? null;
     }
 
-        public static function getAll(){
+    public static function getAll(){
         return $_SESSION;
     }
 
     public static function exist(){
         self::start();
-        if(!isset($_SESSION['user_id'])){
+        if(!isset($_SESSION['user_id']) ){
             header('location: ../login.php');
             exit;
         };

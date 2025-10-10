@@ -5,7 +5,7 @@ class Dbh {
     private $pwd = "";
     private $user = "root";
 
-    public function conn(){
+    protected function conn(){
         try {
             $dsn = "mysql:host=" . $this->host . ";dbname=" . $this->dbName;
             $pdo = new PDO($dsn,$this->user,$this->pwd);
