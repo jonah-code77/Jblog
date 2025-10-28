@@ -31,6 +31,24 @@
                 <div class="card-text fs-5 text-dark">
                     <?= nl2br(htmlspecialchars($post['content'])) ?>
                 </div>
+                <?php if(Session::getSession('user_id')) :?>
+                    <form action="index.php?action=likes" method="post">
+                        <input type="hidden" name="post_id" value="<?= $post['id']?>">
+                        <input type="hidden" name="redirect_id" value="<?= $post['id'] ?>">
+                        <button type="submit" name="type" value="like"
+                        <?= $post['like'] === 'like' ? 'disable' : '' ?>>
+                        👍<?= $post['like_count'] ?>
+                    </button>
+
+                    <button type="submit" name="type" value="dislike"
+                        <?= $post['like'] === 'dislike' ? 'disable' : '' ?>>
+                        😢<?= $post['dislike_count'] ?>
+                    </button>                                    
+                    </form>
+                <?php else :?>
+                <span>👍<?= $post['like_count'] ?></span>
+                <span>😢<?= $post['dislike_count'] ?></span>                                   
+                <?php endif?> 
             </div>
         </article>
 
@@ -56,7 +74,7 @@
                         </p>
                     <?php endif;?>
                 </div>
-                
+
                 <!-- Display Comments -->
                 <h3 class="h5 fw-bold text-dark mb-4">
                     Comments (<?= count($post['comments']) ?? 0 ?>)

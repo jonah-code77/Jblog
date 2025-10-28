@@ -16,17 +16,13 @@ $type = $_POST['type'] ?? null;
 
 //split between which view to go to
 if ($search !="") {
-
     $controller->searchPost($search);
 }elseif($id){
-
     $controller->get_post($id);
 }elseif($action === 'addComment' && $_SERVER['REQUEST_METHOD'] ===  'POST'){
-    $controller->addComment($userId,$postId,$_POST['comment']);
-    
+    $controller->addComment($userId,$postId,$_POST['comment']);   
 }elseif($action === 'likes' && $_SERVER['REQUEST_METHOD'] ===  'POST'){
-    $controller->likes($userId, $postId, $type);
-    
+    $controller->likes($userId, $postId, $type);    
 }else{
     $controller->getAllPost();
 }

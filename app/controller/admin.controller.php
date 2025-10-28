@@ -50,6 +50,7 @@ class Admin {
 
     //handles create post
     public function createPost($userId,$title,$content){
+        if(!$this->checkAdmin($userId)) return false;
         if(!empty($title) && !empty($content)){
             $post = $this->model->createPost($userId,$title,$content);
             if ($post == true) {
@@ -99,7 +100,6 @@ class Admin {
             die("Invalid method.");
         }
     }
-
 
 
     //Handles the Delete

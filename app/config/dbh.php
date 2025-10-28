@@ -4,14 +4,15 @@ class Dbh {
     private $dbName = "jblog";
     private $pwd = "";
     private $user = "root";
+    protected $conn;
 
-    protected function conn(){
+    public function __construct(){
         try {
             $dsn = "mysql:host=" . $this->host . ";dbname=" . $this->dbName;
-            $pdo = new PDO($dsn,$this->user,$this->pwd);
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-            return $pdo;
+            $this->conn = new PDO($dsn,$this->user,$this->pwd);
+            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $this->conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+            return $this->conn;
         } catch (PDOException $e) {
             echo "Connection failed: ". $e->getMessage();
         }

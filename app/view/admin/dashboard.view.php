@@ -56,8 +56,10 @@
             <td><?= $user['role'] ?></td>
             <td><?= $user['date'] ?? '-'?></td>
             <td>
-                <a href="index.php?action=createPost&id=<?= $user['id'] ?>">Add Post</a>
-                <a href="index.php?action=changeRole&id=<?= $user['id'] ?>">Change Role</a>
+                <?php if($user['id'] == Session::getSession('user_id')) :?>
+                    <a href="index.php?action=createPost&id=<?= $user['id'] ?>">Add Post</a>
+                    <a href="index.php?action=changeRole&id=<?= $user['id'] ?>">Change Role</a>
+                <?php endif?> 
             </td>
             </tr>
         <?php endforeach ?>

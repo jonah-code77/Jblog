@@ -101,7 +101,9 @@
                                 <!-- Comment Submission Form -->
                                 <div class="mb-4 p-3 rounded bg-light border">
                                     <?php if(Session::getSession('user_id')) : ?>
+                                         <?= $msg[0] ?? null ?>
                                         <form action="index.php?action=addComment" method="POST">
+                                           
                                             <input type="hidden" name="post_id" value="<?= $post['id'] ?>">
                                             <textarea name="comment" placeholder="Write a Comment..." rows="3" class="form-control mb-3"></textarea>
                                             <button type="submit" class="btn btn-success btn-sm w-100">

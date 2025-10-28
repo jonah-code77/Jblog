@@ -14,7 +14,7 @@
         </div>
         <div class="form-group">
             <label for="content">Content:</label>
-                <input type="text" name="content" >
+            <textarea name="content" id=""></textarea>
         </div>
         <div class="form-group">
             <input type="submit" value="Add">

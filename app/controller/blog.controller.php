@@ -14,7 +14,12 @@ class Blog {
     public function getAllPost(){  
         $posts = $this->model->get_posts();
         
-        //to  fetech all comments
+       $posts = $this->likes_comment($posts);
+
+        View::views('home', ['posts'=>$posts]);   
+    }
+
+    private function likes_comment($posts){
         foreach ($posts as $key => $post) {
 
             //likes
@@ -35,20 +40,29 @@ class Blog {
             
             $posts[$key] = $post;
         }
-
-        View::views('home', ['posts'=>$posts]);   
+        return $posts;
     }
 
     public function get_post($id){
         $post = $this->model->get_post($id);
+        //likes
+        $post['like_count'] = $this->model->countLikes($post['id']);
+        $post['dislike_count'] = $this->model->countDisLikes($post['id']);
+        if(Session::getSession('user_id')){
+            $post['like'] = $this->model->userlikes(Session::getSession('user_id'), $post['id']);
+        }else{
+            $post['like'] = null;
+         }
         //To fetch comment on single post
         $comments = $this->model->getCommentById($post['id']);
         $post['comments'] = $comments;
         View::views('blogPost', ['post' => $post]);
     }
 
+    //search
     public function searchPost($search){
         $posts = $this->model->searchPost($search);
+        $posts = $this->likes_comment($posts);
         $search = $search;
         View::views('home', ['posts'=> $posts, 'search'=>$search]);
     }
@@ -103,15 +117,15 @@ class Blog {
                 $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
                 $user = $this->model->reg_user($username, $email, $hashedPassword);
+                $newUser = $this->model->get_user($user);
 
-                if($user){
-                    Session::setSession('username',$username);
-                    Session::setSession('user_id',$user['id']);
-                    $_SESSION['username'] = $username;
+                if($newUser){
+                    Session::setSession('username',$newUser['username']);
+                    Session::setSession('user_id',$newUser['id']);
                     header("location:index.php");
                     exit;
                 }else{
-                    $msg[] = "<p style = 'color:red'>{$user}</p>";
+                    $msg[] = "<p style = 'color:red'>{$newUser}</p>";
                 }
             }else{
                 $msg[] = "<p style = 'color:red'>Email Taken</p>";
@@ -130,6 +144,7 @@ class Blog {
     //comments controller
     //add comments
     public function addComment($userId,$postId,$comments){
+        $msg = [];
         if(!$userId){header("login.php");exit;};
         if($_SERVER['REQUEST_METHOD'] ===  'POST'){
            //print_r($_POST);
@@ -144,13 +159,14 @@ class Blog {
                         exit;
                     }
                 }else{
-                    echo "failed to post comments";
+                    $msg[] = "failed to post comments";
                 }
             
             }else{
-                echo "comments can not be empty";
+                $msg[] = "comments can not be empty";
             }
         }
+        View::views('home',['msg'=>$msg]);
     
     }
 
@@ -167,9 +183,13 @@ class Blog {
         }else{
             $this->model->likes_btn($userId,$postId,$type);
         }
-
-        header("location:index.php");
-        exit;
+        if (isset($_POST['redirect_id']) && !empty($_POST['redirect_id'])) {
+            header("Location: index.php?id=" . $_POST['redirect_id']);
+            exit;
+        } else {
+            header("Location: index.php");
+            exit;
+        }
 
     }
 
